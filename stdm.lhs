@@ -22,9 +22,9 @@ implementation.  Under Unix, you can start hugs with the command
 which tells it to use the standard Haskell 98 language, but not the
 experimental language extensions.
 
-Notice: the option -c may need to be modified so as this file be loaded.   --*2
-If there is problem when loading this file, use the command:               --*2
-                      :set "-c50"                                          --*2
+Notice: the option -c may need to be modified so as this file be loaded.
+If there is problem when loading this file, use the command:
+                      :set "-c50"
 
 This software, and its documentation, can be downloaded from the book
 web page:
@@ -40,6 +40,7 @@ documentation which will be ignored by the compiler.
 
 
 > module Stdm where
+> import Control.Exception
 
 -------------------------------------------------------------------------------
 			 Operator Precedence
@@ -336,13 +337,13 @@ R^Q was needed.
 >   | Or Prop Prop
 >   | Not Prop
 >   | Imp Prop Prop
->   deriving Show      -- Eq is not derived anymore, but completly defined --*1
+>   deriving Show      -- Eq is not derived anymore, but completly defined --
 
 > data Theorem
 >   = Theorem [Prop] Prop
 >   deriving (Eq,Show)
 
-> type TheoremDB = [String]  -- a representation of all the known theorems --*2
+> type TheoremDB = [String]  -- a representation of all the known theorems --
 
 > data Proof
 >   = Assume Prop
@@ -357,9 +358,9 @@ R^Q was needed.
 >   | ID Proof Prop
 >   | CTR Proof Prop
 >   | RAA Proof Prop
->   | Use Theorem [Proof] Prop                                             --*2
->   | UseTh (Theorem,Proof) [Proof] Prop                                   --*2
->   | UseDB Theorem [Proof] Prop                                           --*2
+>   | Use Theorem [Proof] Prop                                             --
+>   | UseTh (Theorem,Proof) [Proof] Prop                                   --
+>   | UseDB Theorem [Proof] Prop                                           --
 >   deriving (Eq,Show)
 
 When a proof is checked, several pieces of information are gathered
@@ -376,53 +377,53 @@ propositions
 
 > data Comparison = Lesser | Equal | Greater deriving Eq
 
--------------------- definition of the Eq for a Prop ------------------------*1
+-------------------- definition of the Eq for a Prop ------------------------
 
-> instance Eq Prop where                                                   --*1
-> -- the basic definitions for the equality:                               --*1
->    (==) FALSE       FALSE             = True                             --*1
->    (==) TRUE        TRUE              = True                             --*1
->    (==) A           A                 = True                             --*1
->    (==) B           B                 = True                             --*1
->    (==) C           C                 = True                             --*1
->    (==) D           D                 = True                             --*1
->    (==) E           E                 = True                             --*1
->    (==) G           G                 = True                             --*1
->    (==) H           H                 = True                             --*1
->    (==) I           I                 = True                             --*1
->    (==) J           J                 = True                             --*1
->    (==) K           K                 = True                             --*1
->    (==) L           L                 = True                             --*1
->    (==) M           M                 = True                             --*1
->    (==) N           N                 = True                             --*1
->    (==) O           O                 = True                             --*1
->    (==) P           P                 = True                             --*1
->    (==) Q           Q                 = True                             --*1
->    (==) R           R                 = True                             --*1
->    (==) S           S                 = True                             --*1
->    (==) U           U                 = True                             --*1
->    (==) V           V                 = True                             --*1
->    (==) W           W                 = True                             --*1
->    (==) X           X                 = True                             --*1
->    (==) Y           Y                 = True                             --*1
->    (==) Z           Z                 = True                             --*1
->    (==) (Pvar x1)   (Pvar x2)         = x1 == x2                         --*1
->    (==) (And x1 y1) (And x2 y2)       = (x1 == x2) && (y1 == y2)         --*1
->    (==) (Or x1 y1)  (Or x2 y2)        = (x1 == x2) && (y1 == y2)         --*1
->    (==) (Not x)     (Not y)           = (x == y)                         --*1
->    (==) (Imp x1 y1) (Imp x2 y2)       = (x1 == x2) && (y1 == y2)         --*1
->                                                                          --*1
-> -- the definitions of (Not A) and TRUE                                   --*1
->    (==) TRUE        y                 = (Imp FALSE FALSE) == y           --*1
->    (==) x           TRUE              = x == (Imp FALSE FALSE)           --*1
->    (==) (Not x)     y                 = ((Imp x FALSE) == y)             --*1
->    (==) x           (Not y)           = (x == (Imp y FALSE))             --*1
->                                                                          --*1
-> -- all other cases: there is not equality:                               --*1
->    (==) _           _                 = False                            --*1
->                                                                          --*1
-> -- definition of inequality, very basic...                               --*1
->    (/=) x y = not (x == y)                                               --*1
+> instance Eq Prop where                                                   --
+> -- the basic definitions for the equality:                               --
+>    (==) FALSE       FALSE             = True                             --
+>    (==) TRUE        TRUE              = True                             --
+>    (==) A           A                 = True                             --
+>    (==) B           B                 = True                             --
+>    (==) C           C                 = True                             --
+>    (==) D           D                 = True                             --
+>    (==) E           E                 = True                             --
+>    (==) G           G                 = True                             --
+>    (==) H           H                 = True                             --
+>    (==) I           I                 = True                             --
+>    (==) J           J                 = True                             --
+>    (==) K           K                 = True                             --
+>    (==) L           L                 = True                             --
+>    (==) M           M                 = True                             --
+>    (==) N           N                 = True                             --
+>    (==) O           O                 = True                             --
+>    (==) P           P                 = True                             --
+>    (==) Q           Q                 = True                             --
+>    (==) R           R                 = True                             --
+>    (==) S           S                 = True                             --
+>    (==) U           U                 = True                             --
+>    (==) V           V                 = True                             --
+>    (==) W           W                 = True                             --
+>    (==) X           X                 = True                             --
+>    (==) Y           Y                 = True                             --
+>    (==) Z           Z                 = True                             --
+>    (==) (Pvar x1)   (Pvar x2)         = x1 == x2                         --
+>    (==) (And x1 y1) (And x2 y2)       = (x1 == x2) && (y1 == y2)         --
+>    (==) (Or x1 y1)  (Or x2 y2)        = (x1 == x2) && (y1 == y2)         --
+>    (==) (Not x)     (Not y)           = (x == y)                         --
+>    (==) (Imp x1 y1) (Imp x2 y2)       = (x1 == x2) && (y1 == y2)         --
+>                                                                          --
+> -- the definitions of (Not A) and TRUE                                   --
+>    (==) TRUE        y                 = (Imp FALSE FALSE) == y           --
+>    (==) x           TRUE              = x == (Imp FALSE FALSE)           --
+>    (==) (Not x)     y                 = ((Imp x FALSE) == y)             --
+>    (==) x           (Not y)           = (x == (Imp y FALSE))             --
+>                                                                          --
+> -- all other cases: there is not equality:                               --
+>    (==) _           _                 = False                            --
+>                                                                          --
+> -- definition of inequality, very basic...                               --
+>    (/=) x y = not (x == y)                                               --
 
 ----------------------------- auxilary functions ---------------------------- *
  
@@ -449,19 +450,19 @@ propositions
 
 ------------------------------ the proof-checker ---------------------------- *
 
-  the following 'check_proof' is equivalent to the 'check_proof' of the    --*2
-  previous versions.                                                       --*2
+  the following 'check_proof' is equivalent to the 'check_proof' of the    --
+  previous versions.                                                       --
 
-> check_proof :: Theorem -> Proof -> IO ()                                 --*2
-> check_proof t p =                                                        --*2
->   do check_proof_with_db [] t p                                          --*2
->      return ()                                                           --*2
+> check_proof :: Theorem -> Proof -> IO ()                                 --
+> check_proof t p =                                                        --
+>   do check_proof_with_db [] t p                                          --
+>      return ()                                                           --
 
-  'check_proof_with_db' allows to use theorems stored in a data-base       --*2
+  'check_proof_with_db' allows to use theorems stored in a data-base       --
 
-> check_proof_with_db :: TheoremDB -> Theorem -> Proof -> IO (Bool)        --*2
-> check_proof_with_db db (Theorem thas thc) proof =                        --*2
->   do let (valid, ms, uda, concl) = traverse db proof                     --*2
+> check_proof_with_db :: TheoremDB -> Theorem -> Proof -> IO (Bool)        --
+> check_proof_with_db db (Theorem thas thc) proof =                        --
+>   do let (valid, ms, uda, concl) = Stdm.traverse db proof                     --
 >      let missingassum = setdif uda thas                                  -- *
 >      let uselessassum = setdif thas uda                                  -- *
 >      let allok = valid && (missingassum == []) && (concl == thc)         -- *
@@ -489,7 +490,7 @@ propositions
 >                            then putStr ""                                -- *
 >                            else do putStr "Reported errors:\n"           -- *
 >                                    putmessages ms                        -- *
->      return (allok)                                                      --*2
+>      return (allok)                                                      --
 
 The real work is performed in the traverse function, which has a
 separate case for checking each inference rule.  Nearly all the
@@ -499,13 +500,13 @@ proof is valid, then the implementation could rely much more on
 Haskell's pattern matching mechanism, and everything would be much
 more concise.
 
-> traverse :: TheoremDB -> Proof -> Status                                 --*2
+> traverse :: TheoremDB -> Proof -> Status                                 --
 
-> traverse _ (Assume a) = (True, [], [a], a)                               --*2
+> traverse _ (Assume a) = (True, [], [a], a)                               --
 
-> traverse db (AndI (a,b) c) =                                             --*2
->   let (avalid, amsgs, auda, aconcl) = traverse db a                      --*2
->       (bvalid, bmsgs, buda, bconcl) = traverse db b                      --*2
+> traverse db (AndI (a,b) c) =                                             --
+>   let (avalid, amsgs, auda, aconcl) = Stdm.traverse db a                      --
+>       (bvalid, bmsgs, buda, bconcl) = Stdm.traverse db b                      --
 >       (ok, msg) =                                                        -- *
 >         case c of                                                        -- *
 >	    And p q -> if (p==aconcl) && (q==bconcl)                       -- *
@@ -522,8 +523,8 @@ more concise.
 >       uda = auda `union` buda
 >   in  (valid, msgs, uda, c)
 
-> traverse db (AndEL a b) =                                                --*2
->   let (avalid, amsgs, auda, aconcl) = traverse db a                      --*2
+> traverse db (AndEL a b) =                                                --
+>   let (avalid, amsgs, auda, aconcl) = Stdm.traverse db a                      --
 >       (ok,msg) =
 >         case aconcl of
 >           And p q -> if p == b then (True,[])
@@ -538,8 +539,8 @@ more concise.
 >       uda = auda
 >   in (valid, msgs, uda, b)
 
-> traverse db (AndER a b) =                                                --*2
->   let (avalid, amsgs, auda, aconcl) = traverse db a                      --*2
+> traverse db (AndER a b) =                                                --
+>   let (avalid, amsgs, auda, aconcl) = Stdm.traverse db a                      --
 >       (ok,msg) =
 >         case aconcl of
 >           And p q -> if q == b then (True,[])
@@ -554,8 +555,8 @@ more concise.
 >       uda = auda
 >   in (valid, msgs, uda, b)
 
-> traverse db (OrIL a b) =                                                 --*2
->   let (avalid, amsgs, auda, aconcl) = traverse db a                      --*2
+> traverse db (OrIL a b) =                                                 --
+>   let (avalid, amsgs, auda, aconcl) = Stdm.traverse db a                      --
 >       (ok,msg) =                                                         -- *
 >         case b of
 >           Or p q -> if aconcl == p then (True,[])
@@ -571,8 +572,8 @@ more concise.
 >       uda = auda
 >   in (valid, msgs, uda, b)
 
-> traverse db (OrIR a b) =                                                 --*2
->   let (avalid, amsgs, auda, aconcl) = traverse db a                      --*2
+> traverse db (OrIR a b) =                                                 --
+>   let (avalid, amsgs, auda, aconcl) = Stdm.traverse db a                      --
 >       (ok,msg) =                                                         -- *
 >         case b of
 >           Or p q -> if aconcl == q then (True,[])
@@ -588,10 +589,10 @@ more concise.
 >       uda = auda
 >   in (valid, msgs, uda, b)
 
-> traverse db (OrE (a,b,c) d) =                                            --*2
->   let (avalid, amsgs, auda, aconcl) = traverse db a                      --*2
->       (bvalid, bmsgs, buda, bconcl) = traverse db b                      --*2
->       (cvalid, cmsgs, cuda, cconcl) = traverse db c                      --*2
+> traverse db (OrE (a,b,c) d) =                                            --
+>   let (avalid, amsgs, auda, aconcl) = Stdm.traverse db a                      --
+>       (bvalid, bmsgs, buda, bconcl) = Stdm.traverse db b                      --
+>       (cvalid, cmsgs, cuda, cconcl) = Stdm.traverse db c                      --
 >       (ok,msg,uda) =                                                     -- *
 >         case aconcl of                                                   -- *
 >           Or p q -> let ok2 = p `elem` buda                              -- *
@@ -629,11 +630,11 @@ more concise.
 >       msgs = amsgs ++ bmsgs ++ cmsgs ++ msg                              -- *
 >   in (valid, msgs, uda, d)                                               -- *
 
-> traverse db (ImpI a b) =                                                 --*2
->   let (avalid, amsgs, auda, aconcl) = traverse db a                      --*2
->       (ok,msg) = match b                                                 --*1
->       match x =                                                          --*1
->         case x of                                                        --*1
+> traverse db (ImpI a b) =                                                 --
+>   let (avalid, amsgs, auda, aconcl) = Stdm.traverse db a                      --
+>       (ok,msg) = match b                                                 --
+>       match x =                                                          --
+>         case x of                                                        --
 >           Imp p q -> if p `elem` auda && aconcl==q                       -- *
 >                        then (True,[])
 >                      else if not (p `elem` auda) && aconcl==q            -- *
@@ -641,8 +642,8 @@ more concise.
 >                      else if p `elem` auda && aconcl/=q                  -- *
 >                        then (False,[err3])
 >                      else (False,[err2,err3])
->           Not p -> match (Imp p FALSE)                                   --*1
->           FALSE -> match (Imp TRUE TRUE)                                 --*1
+>           Not p -> match (Imp p FALSE)                                   --
+>           FALSE -> match (Imp TRUE TRUE)                                 --
 >           otherwise -> (False,[err1])
 >       err1 = "ImpI: the conclusion (" ++ show b ++ ") is not an "        -- *
 >              ++ "implication\n"                                          -- *
@@ -654,17 +655,17 @@ more concise.
 >       msgs = amsgs ++ msg                                                -- *
 >       uda = case b of
 >               Imp p q -> auda `setdif` [p]
->               Not p   -> auda `setdif` [p]                               --*1
->               FALSE   -> auda `setdif` [TRUE]                            --*1
+>               Not p   -> auda `setdif` [p]                               --
+>               FALSE   -> auda `setdif` [TRUE]                            --
 >               otherwise -> auda
 >   in (valid, msgs, uda, b)
 
-> traverse db (ImpE (a,b) c) =                                             --*2
->   let (avalid, amsgs, auda, aconcl) = traverse db a                      --*2
->       (bvalid, bmsgs, buda, bconcl) = traverse db b                      --*2
->       (ok,msg) = match bconcl                                            --*1
->       match x =                                                          --*1
->         case x of                                                        --*1
+> traverse db (ImpE (a,b) c) =                                             --
+>   let (avalid, amsgs, auda, aconcl) = Stdm.traverse db a                      --
+>       (bvalid, bmsgs, buda, bconcl) = Stdm.traverse db b                      --
+>       (ok,msg) = match bconcl                                            --
+>       match x =                                                          --
+>         case x of                                                        --
 >           Imp p q ->if aconcl==p && c==q
 >                       then (True,[])
 >                     else if aconcl/=p && c==q
@@ -672,8 +673,8 @@ more concise.
 >                     else if aconcl==p && c/=q
 >                       then (False,[err3])
 >                     else (False,[err2,err3])
->           Not p -> match (Imp p FALSE)                                   --*1
->           FALSE -> match (Imp TRUE TRUE)                                 --*1
+>           Not p -> match (Imp p FALSE)                                   --
+>           FALSE -> match (Imp TRUE TRUE)                                 --
 >           otherwise -> (False,[err1])
 >       err1 = "ImpE: second term above line (" ++ show bconcl             -- *
 >              ++ ") is not an implication\n"                              -- *
@@ -688,8 +689,8 @@ more concise.
 >       uda = auda `union` buda
 >   in (valid, msgs, uda, c)
 
-> traverse db (ID a c) =                                                   --*2
->   let (avalid, amsgs, auda, aconcl) = traverse db a                      --*2
+> traverse db (ID a c) =                                                   --
+>   let (avalid, amsgs, auda, aconcl) = Stdm.traverse db a                      --
 >       (ok,msg) = if aconcl == c                                          -- *
 >                    then (True,[])
 >                    else (False,[err1])
@@ -700,8 +701,8 @@ more concise.
 >       uda = auda                                                         -- *
 >   in (valid, msgs, uda, c)                                               -- *
 
-> traverse db (CTR a c) =                                                  --*2
->   let (avalid, amsgs, auda, aconcl) = traverse db a                      --*2
+> traverse db (CTR a c) =                                                  --
+>   let (avalid, amsgs, auda, aconcl) = Stdm.traverse db a                      --
 >       (ok,msg) = if aconcl == FALSE                                      -- *
 >                   then (True,[])
 >                   else (False,[err1])
@@ -712,8 +713,8 @@ more concise.
 >       uda = auda                                                         -- *
 >   in (valid, msgs, uda, c)                                               -- *
 
-> traverse db (RAA a c) =                                                  --*2
->   let (avalid, amsgs, auda, aconcl) = traverse db a                      --*2
+> traverse db (RAA a c) =                                                  --
+>   let (avalid, amsgs, auda, aconcl) = Stdm.traverse db a                      --
 >       (ok,msg) = if not ((c `Imp` FALSE) `elem` auda)                    -- *
 >                    then (False, [err1])
 >                    else if aconcl /= FALSE
@@ -730,10 +731,10 @@ more concise.
 >   in (valid, msgs, uda, c)                                               -- *
 
 
-(everything of chapter 2 that follows has been added as 2nd extension, and --*2
- every line should be marked with --*2)                                    --*2
+(everything of chapter 2 that follows has been added as 2nd extension, and --
+ every line should be marked with --)                                    --
 
------------------------ traverse function for 'USE' -------------------------*2
+----------------------- traverse function for 'USE' -------------------------
 
 Use assumes that the theorem is correct
 
@@ -751,7 +752,7 @@ UseTh needs the proof of a theorem to check if it's valid and then can be used.
 
 > traverse db (UseTh (theo,proof) assums concl) =
 >       -- check if the theorem is valid
->   let (proofvalid, _, proofuda, proofconcl) = traverse db proof
+>   let (proofvalid, _, proofuda, proofconcl) = Stdm.traverse db proof
 >       (Theorem thas thc) = theo
 >       missingassum = setdif proofuda thas
 >       theook = proofvalid && (missingassum == []) && (proofconcl == thc)
@@ -785,7 +786,7 @@ UseDB checks if a theorem can be used by looking for it in a data-base
 >             (True, msgs, udas, concl)
 >      else (False, msgs++[err2], udas, concl)
 
------------------------ the functions to use a theorem ----------------------*2
+----------------------- the functions to use a theorem ----------------------
 
 the function 'checkproof' check the proofs of every assumptions of the
 theorem, and return the list of the conclusions of these proofs, with
@@ -794,7 +795,7 @@ their validity, the error messages and the undischarged assumptions
 > checkproofs :: TheoremDB -> [Proof] -> (Bool, [String], [Prop], [Prop])
 > checkproofs _ [] = (True, [], [], [])
 > checkproofs db (x:xs) =
->   let (okx,  msgx,  udasx,  cclx)  = traverse db x
+>   let (okx,  msgx,  udasx,  cclx)  = Stdm.traverse db x
 >       (okxs, msgxs, udasxs, cclxs) = checkproofs db xs
 >   in (okx && okxs, msgx ++ msgxs, udasx `union` udasxs, cclx:cclxs)
 
@@ -962,7 +963,7 @@ may be considered equal as 'comparison' compares trees not values)
 >                    then (y:le,   g)
 >                    else (  le, y:g))
 
------------------------ functions to use the data-base ----------------------*2
+----------------------- functions to use the data-base ----------------------
 
 the function 'findtheorem' looks if a theorem belongs to the data-base of known
 theorems.
@@ -1032,11 +1033,18 @@ the 2 following functions convert a String into a data-base, and vice-versa
 > writetheorems [] = "\n"
 > writetheorems (x:xs) = x ++ "\n" ++ writetheorems xs
 
--------------------- user's functions for the db ----------------------------*2
+-------------------- user's functions for the db ----------------------------
+
+Custom typed exception handler:
+
+> handler :: SomeException -> IO String
+> handler e = 
+>    do
+>        return ""
 
 > addNewTheorem :: String -> Theorem  -> Proof -> IO ()
 > addNewTheorem filename theo proof =
->   do filedata <- (readFile filename) `catch` (\_ -> return "")
+>   do filedata <- (readFile filename) `catch` handler
 >      let db = readtheorems filedata
 >        in do ok <- check_proof_with_db db theo proof
 >              if ok && (db == db) -- to force the complete evaluation of 'db'
@@ -1048,7 +1056,7 @@ the 2 following functions convert a String into a data-base, and vice-versa
 
 > checkProofUsingTheorems :: String -> Theorem -> Proof -> IO ()
 > checkProofUsingTheorems filename theo proof =
->   do filedata <- (readFile filename) `catch` (\_ -> return "")
+>   do filedata <- (readFile filename) `catch` handler
 >      check_proof_with_db (readtheorems filedata) theo proof
 >      return ()
 
@@ -1161,7 +1169,7 @@ note that subset does not reject non-sets
 
 > factorial :: Integer -> Integer
 > factorial 0 = 1
-> factorial (n+1) = (n+1) * factorial n
+> factorial n = n * factorial (n - 1)
 
 > quicksort :: Ord a => [a] -> [a]
 > quicksort [] = []
