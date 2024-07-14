@@ -111,3 +111,44 @@ realRoots a b c = if det >= 0
                   else Nothing
                   where det = sqrt ((b**2) - (4*a*c))
 
+-- Exercise 15: Define a function
+
+-- showMaybe :: Show a => Maybe a -> String
+
+-- That takes a Maybe value and prints it.
+
+showMaybe :: Show a => Maybe a -> String
+showMaybe (Just a) = show a
+showMaybe Nothing = show "Nothing"
+
+-- Exercise 16: A Bit is an integer that is either 0 or 1. A Word is a list of
+-- bits that represents a binary number. Here are some binary values that can
+-- be represented by Words:
+--  [1,0] => 2
+--  [1,0,0,1] => 9
+--  [1,1,1] => 7
+-- We can define functions that are the Bit equivalent of or and and as
+-- follows:
+
+--  bitOr :: Int -> Int -> Int
+--  bitOr 0 0 = 0
+--  bitOr x y = 1
+
+--  bitAnd :: Int -> Int -> Int
+--  bitAnd 1 1 = 1
+--  bitAnd x y = 0
+
+-- Now it is possible to take the 'bitwise' and of two words as follows:
+
+--  bitwiseAnd [1,0,0] [1,0,1]
+--  => [bitAnd 1 1, bitAnd 0 0, bitand 0 1]
+--  => [1,0,0]
+
+-- Write a funciton bitwiseAnd that takes two Words and creates a third Word
+-- that is the bitwise and of the two Words.
+
+bitwiseAnd :: [Int] -> [Int] -> [Int]
+bitwiseAnd w1 w2 = zipWith bitAnd w1 w2
+                   where bitAnd 1 1 = 1
+                         bitAnd x y = 0
+
