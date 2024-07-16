@@ -1,3 +1,5 @@
+import Data.Maybe
+
 -- Exercise 3: Write a function that takes a character and returns True if the
 -- character is 'a' and False otherwise.
 
@@ -151,4 +153,74 @@ bitwiseAnd :: [Int] -> [Int] -> [Int]
 bitwiseAnd w1 w2 = zipWith bitAnd w1 w2
                    where bitAnd 1 1 = 1
                          bitAnd x y = 0
+
+-- Exercise 17: Each of the following expressions has a type error. Change the
+-- expression so that the type error no longer occurs.
+--  [1, False] => [1, 0] or [True, False]
+--  [(3, True), (False, 9)] => [(True, 3), (False, 9)]
+--  'a' > "b" => 'a' > 'b'
+--  '2' ++ 'a' => "2" ++ "a"
+--  2 == False => 2 == 3 or True == False
+--  [[1], [2], [[3]]] => [[1], [2], [3]]
+
+-- Exercise 18: What caused the type error in this definition and application?
+--  f :: Num a => (a,a) -> a
+--  f (x,y) = x + y
+--  f (True, 4) => Both x and y need to be the same Num type
+
+-- Exercise 19: Why does this definition produce an error when used?
+--  f :: Maybe a -> [a]
+--  f Nothing = []
+--  f (Just 3) => No case defined for an instance of Just
+
+-- Exercise 20: Write a list comprehension that takes a list of Maybe values
+-- and returns a list of the Just constructor arguments.
+
+extractJust :: [Maybe a] -> [a]
+extractJust xs = [fromJust x | x <- xs, isJust x]
+
+-- Exercise 21: Using a list comprehension, write a function that takes a list
+-- of Int values and an Int value n and returns those elements in the list
+-- that are greater than n.
+
+greaterElems :: [Int] -> Int -> [Int]
+greaterElems xs n = [x | x <- xs, x > n]
+
+-- Exercise 22: Write a function that takes a list of Int values and an Int and
+-- returns a list of indexes at which that Int appears.
+
+getIndexes :: [Int] -> Int -> [Int]
+getIndexes xs n = [x | x <- [0..(length xs) - 1], (xs!!x) == n]
+
+-- Exercise 23: Write a list comprehension that produces a list giving all of
+-- the positive integers that are not squares, in the range 1 to 20.
+
+notSquares = [x | x <- [1..20], not (elem x [y*y | y <- [1..5]])]
+
+-- Exercise 24: Write a function that uses foldr to count the number of times
+-- a letter occurs in a string.
+
+letterCount :: [Char] -> Char -> Int
+letterCount xs c = let helper ch acc = if ch == c then acc + 1 else acc
+                   in foldr helper 0 xs
+
+-- Exercise 25: Write a function using foldr that takes a list and removes
+-- each instance of a given letter.
+
+letterRemover :: [Char] -> Char -> [Char]
+letterRemover xs c = let helper ch acc = if ch == c then acc else ch:acc
+                     in foldr helper "" xs
+
+-- Exercise 26: Using foldr, write a function that reverses its list argument.
+
+reverser :: [a] -> [a]
+reverser xs = let helper e acc = acc ++ [e]
+              in foldr helper [] xs
+
+-- Exercise 27: Using foldl, write a function that takes a list and returns
+-- the last element if there is one, otherwise it returns Nothing.
+
+maybeLast :: [a] -> Maybe a
+maybeLast xs = let helper acc e = Just e
+               in foldl helper Nothing xs 
 
