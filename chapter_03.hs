@@ -87,6 +87,9 @@ remove e (x:xs) = if e == x then remove e xs else x : (remove e xs)
 -- Exercise 9: Write a function extract :: [Maybe a] -> [a] that takes a list
 -- of Maybe values and returns the elements they contain. For example,
 --  extract [Just 3, Nothing, Just 7] -> [3, 7]
+-- Note: This exercise has the same objective as exercise 20 from chapter 1,
+-- with the difference that this implementation uses recursion instead of a
+-- list comprehension.
 
 -- Exercise 10: Write a function that takes two strings. If the second string
 -- appears within the first, it returns the index identifying where it starts.
