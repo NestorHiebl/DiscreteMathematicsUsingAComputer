@@ -1,4 +1,6 @@
 import Numeric.Natural
+import Data.Maybe
+import Data.List
 
 -- Peano numbers are a great way to demonstrate the uses of recursion over
 -- general algebraic types.
@@ -84,6 +86,11 @@ remove e (x:xs) = if e == x then remove e xs else x : (remove e xs)
 -- argument, starting with the first one. For example,
 --  deinterlace [1,2,3,4,5,6,7] ==> [2,4,6]
 
+deinterlace :: [a] -> [a]
+deinterlace [] = []
+deinterlace (x:[]) = []
+deinterlace (x:y:xs) = y : deinterlace xs
+
 -- Exercise 9: Write a function extract :: [Maybe a] -> [a] that takes a list
 -- of Maybe values and returns the elements they contain. For example,
 --  extract [Just 3, Nothing, Just 7] -> [3, 7]
@@ -91,9 +98,25 @@ remove e (x:xs) = if e == x then remove e xs else x : (remove e xs)
 -- with the difference that this implementation uses recursion instead of a
 -- list comprehension.
 
+extract :: [Maybe a] -> [a]
+extract [] = []
+extract (x:xs) = if isJust x then (fromJust x) : extract xs else extract xs
+
 -- Exercise 10: Write a function that takes two strings. If the second string
 -- appears within the first, it returns the index identifying where it starts.
 -- Indexes start from 0. For example,
 --  strstr "abcde" "bc" ==> Just 1
 --  strstr "abcde" "fg" ==> Nothing
+
+strstr :: [Char] -> [Char] -> Maybe Int
+strstr [] needle = Nothing
+strstr haystack needle =
+    let
+        prefixcounter _ [] _ = Nothing
+        prefixcounter n (x:xs) needle =
+            if isPrefixOf needle (x:xs) then
+                Just n
+            else
+                prefixcounter (n+1) xs needle
+    in prefixcounter 0 haystack needle
 
