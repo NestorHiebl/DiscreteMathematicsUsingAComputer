@@ -120,3 +120,59 @@ strstr haystack needle =
                 prefixcounter (n+1) xs needle
     in prefixcounter 0 haystack needle
 
+-- Exercise 11: Write foldrWith, a function that behaves like foldr except that
+-- it takes a function of three arguments and two lists.
+
+foldrWith :: (a -> b -> b -> b) -> b -> [a] -> [b] -> b
+foldrWith f acc [] l2 = acc
+foldrWith f acc l1 [] = acc
+foldrWith f acc (x:l1) (y:l2) = f x y (foldrWith f acc l1 l2)
+
+-- Exercise 12: Using foldr, write a function mappend such that
+--  mappend f xs = concat (map f xs)
+
+mappend :: (a -> [b]) -> [a] -> [b]
+mappend f xs = foldr (++) [] xs'
+    where
+        xs' = map f xs
+
+-- Exercise 13: Write removeDuplicates, a function that takes a list and
+-- removes all of its duplicate elements.
+
+removeDuplicates :: Eq a => [a] -> [a]
+removeDuplicates [] = []
+removeDuplicates (x:xs) = 
+    if elem x xs
+        then removeDuplicates xs
+        else x : (removeDuplicates xs)
+
+-- Exercise 14: Write a recursive function that takes a value and a list of
+-- values and returns True if the value is in the list and False otherwise.
+
+elem' :: Eq a => a -> [a] -> Bool
+elem' _ [] = False
+elem' e (x:xs) = if e == x then True else elem' e xs
+
+-- Exercise 15: Write a function that takes two lists, and returns a list of
+-- values that appear in both lists. This is one way to implement the
+-- intersection operation on sets; see Chapter 8.
+
+-- Exercise 16: Write a function that takes two lists, and returns True if all
+-- the elements of the first list also occur in the other. This is one way to
+-- determine whether one set is a subset of another; see Chapter 8.
+
+-- Exercise 17: Write a recursive function that determines whether a list is
+-- sorted.
+
+-- Exercise 18: Show that the definition of factorial using foldr always
+-- produces the same result as the recursive definiton given in the previous
+-- section.
+
+-- Exercise 19: Using recursion, define last, a function that takes a list and
+-- returns a Maybe type that is Nothing if the list is empty.
+
+-- Exercise 20: Using recursion, write two functions that expect a string
+-- containing a number that contains a decimal point (for example, 23.455).
+-- The first function returns the whole part of the number (i.e., the part to
+-- the left
+
