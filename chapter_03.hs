@@ -1,6 +1,7 @@
 import Numeric.Natural
 import Data.Maybe
 import Data.List
+import Data.Char
 
 -- Peano numbers are a great way to demonstrate the uses of recursion over
 -- general algebraic types.
@@ -141,7 +142,7 @@ mappend f xs = foldr (++) [] xs'
 
 removeDuplicates :: Eq a => [a] -> [a]
 removeDuplicates [] = []
-removeDuplicates (x:xs) = 
+removeDuplicates (x:xs) =
     if elem x xs
         then removeDuplicates xs
         else x : (removeDuplicates xs)
@@ -156,23 +157,57 @@ elem' e (x:xs) = if e == x then True else elem' e xs
 -- Exercise 15: Write a function that takes two lists, and returns a list of
 -- values that appear in both lists. This is one way to implement the
 -- intersection operation on sets; see Chapter 8.
+intersection :: Eq a => [a] -> [a] -> [a]
+intersection xs [] = []
+intersection [] ys = []
+intersection (x:xs) ys =
+    if elem x ys
+        then x : (intersection xs (remove x ys))
+        else intersection xs ys
 
 -- Exercise 16: Write a function that takes two lists, and returns True if all
 -- the elements of the first list also occur in the other. This is one way to
 -- determine whether one set is a subset of another; see Chapter 8.
 
+subset :: Eq a => [a] -> [a] -> Bool
+subset [] ys = True
+subset (x:xs) ys = if elem x ys then subset xs ys else False
+
 -- Exercise 17: Write a recursive function that determines whether a list is
 -- sorted.
+
+isSorted :: Ord a => [a] -> Bool
+isSorted [] = True
+isSorted (x:[]) = True
+isSorted (x:y:xs) = if x <= y then isSorted (y:xs) else False
 
 -- Exercise 18: Show that the definition of factorial using foldr always
 -- produces the same result as the recursive definiton given in the previous
 -- section.
 
+fac :: Natural -> Natural
+fac 0 = 1
+fac n = n * (fac (n-1))
+
+fac' :: Natural -> Natural
+fac' n = foldr (*) 1 [1..n]
+
+-- TODO: Proof by induction
+
 -- Exercise 19: Using recursion, define last, a function that takes a list and
 -- returns a Maybe type that is Nothing if the list is empty.
+
+last :: [a] -> Maybe a
+last [] = Nothing
+last (x:[]) = Just x
+last (x:xs) = Main.last xs
 
 -- Exercise 20: Using recursion, write two functions that expect a string
 -- containing a number that contains a decimal point (for example, 23.455).
 -- The first function returns the whole part of the number (i.e., the part to
--- the left
+-- the left of the decimal point). The second function returns the fractional
+-- part (the part to the right of the decimal point).
+
+-- extractWhole :: [Char] -> Maybe [Char]
+
 
