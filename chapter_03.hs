@@ -208,6 +208,30 @@ last (x:xs) = Main.last xs
 -- the left of the decimal point). The second function returns the fractional
 -- part (the part to the right of the decimal point).
 
--- extractWhole :: [Char] -> Maybe [Char]
+digitAcumulator :: ([Char], [Char]) -> ([Char], [Char])
+digitAcumulator (acc, "") = (acc, "")
+digitAcumulator (acc, (x:xs)) =
+    if isDigit x
+        then digitAcumulator ((acc ++ [x]), xs)
+        else (acc, (x:xs))
 
+validateStr :: [Char] -> Bool
+validateStr str = if (remainder == ".") then True else False
+    where remainder = filter (\x -> not(isDigit x)) str
+
+-- Hacky and does not scale, but gets the job done
+
+extractWhole :: [Char] -> Maybe [Char]
+extractWhole str =
+    if validateStr str
+        then Just (fst (digitAcumulator ("",str)))
+        else Nothing
+
+extractFractional :: [Char] -> Maybe [Char]
+extractFractional str =
+    if validateStr str
+        then let
+            remainder = snd (digitAcumulator ("",str))
+                in Just (remove '.' remainder)
+        else Nothing
 
