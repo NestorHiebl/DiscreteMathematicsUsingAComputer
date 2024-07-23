@@ -19,3 +19,8 @@ maximum (x:xs) = foldr (max) x xs
 heads :: [[a]] -> [a]
 heads xss = map (head) xss
 
+-- Exercise 26: Define an and operator using && and foldr.
+
+(&&&) :: Bool -> Bool -> Bool
+(&&&) x y = foldr (&&) x [y]
+
