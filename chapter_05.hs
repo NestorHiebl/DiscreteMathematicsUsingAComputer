@@ -31,3 +31,90 @@ data Tree2 =
     Tree2Leaf |
     Tree2Node Int [Tree2]
 
+-- Exercise 3: Suppose that a tree has type BinTree a and we have a function
+-- f :: a -> b. Write a new traversal function
+-- inorderf :: (a -> b) -> BinTree a -> [b] that traverses the tree using
+-- inorder, but it applies f to the data value in each node before placing the
+-- result in the list.
+inorderf :: (a -> b) -> BinTree a -> [b]
+inorderf f tree = map f (inorder tree)
+
+reflect :: BinTree a -> BinTree a
+reflect BinLeaf = BinLeaf
+reflect (BinNode x l r) = BinNode x (reflect r) (reflect l)
+
+-- Distance between a root and its deepest leaf.
+height :: BinTree a -> Integer
+height BinLeaf = 0
+height (BinNode _ l r) = 1 + max (height l) (height r)
+
+-- Number of nodes in a BinTree.
+size :: BinTree a -> Integer
+size BinLeaf = 0
+size (BinNode _ l r) = 1 + size l + size r
+
+-- Is a BinTree balanced?
+balanced :: BinTree a -> Bool
+balanced BinLeaf = True
+balanced (BinNode _ l r) = balanced l && balanced r && (height l == height r)
+
+-- Exercise 5: Define two trees of size seven, one with the largest possible
+-- height and the other with the smallest possible height.
+
+treeUnbalanced :: BinTree Int
+treeUnbalanced = BinNode 1
+    BinLeaf
+    (BinNode 2
+        BinLeaf
+        (BinNode 3
+            BinLeaf
+            (BinNode 4
+                BinLeaf
+                (BinNode 5
+                    BinLeaf
+                    (BinNode 6
+                        BinLeaf
+                        (BinNode 7
+                            BinLeaf
+                            BinLeaf))))))
+
+treeBalanced :: BinTree Int
+treeBalanced  = BinNode 1
+    (BinNode 2
+        (BinNode 3 BinLeaf BinLeaf)
+        (BinNode 4 BinLeaf BinLeaf))
+    (BinNode 5
+        (BinNode 6 BinLeaf BinLeaf)
+        (BinNode 7 BinLeaf BinLeaf))
+
+-- Datatype describing a simple mathematical expression tree.
+data Exp =
+    Const Integer |
+    Add Exp Exp |
+    Mult Exp Exp
+
+eval :: Exp -> Integer
+eval (Const n) = n
+eval (Add e1 e2) = eval e1 + eval e1
+eval (Mult e1 e2) = eval e1 * eval e1
+
+-- Search inside a binary search tree.
+bstSearch :: Ord a => a -> BinTree (a,b) -> Maybe b
+bstSearch key BinLeaf = Nothing
+bstSearch key (BinNode (a,b) l r) =
+    if key == a
+        then Just b
+        else if key < a
+            then bstSearch key l
+            else bstSearch key r
+
+-- Insert a node into a binary search tree.
+bstInsert :: Ord a => (a,b) -> BinTree (a,b) -> BinTree (a,b)
+bstInsert (k,v) BinLeaf = BinNode (k,v) BinLeaf BinLeaf
+bstInsert (k,v) (BinNode (x,y) l r) =
+    if k == x
+        then (BinNode (k,v) l r)
+        else if k < x
+            then BinNode (x,y) (bstInsert (k,v) l) r
+            else BinNode (x,y) l (bstInsert (k,v) r)
+
