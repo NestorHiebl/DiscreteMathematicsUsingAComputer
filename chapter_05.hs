@@ -3,6 +3,9 @@ data BinTree a =
     BinNode a (BinTree a) (BinTree a)
     deriving Show
 
+-- The tree flattening functions below have a time complexity of n² - if the
+-- assumption is made that the time complexity of ++ is n, as determined by
+-- the size of its left operand.
 inorder :: BinTree a -> [a]
 inorder BinLeaf = []
 inorder (BinNode x t1 t2) = inorder t1 ++ [x] ++ inorder t2
@@ -14,6 +17,14 @@ preorder (BinNode x t1 t2) = [x] ++ preorder t1  ++ preorder t2
 postorder :: BinTree a -> [a]
 postorder BinLeaf = []
 postorder (BinNode x t1 t2) = postorder t1  ++ postorder t2 ++ [x]
+
+-- This implementation of inorder flattening should be more efficient - with
+-- time complexity n due to its usage of : as opposed to ++.
+inorderEfficient :: BinTree a -> [a]
+inorderEfficient tree = g tree []
+    where
+        g BinLeaf continuation = continuation
+        g (BinNode x l r) continuation = g l (x : g r continuation)
 
 -- Exercise 1: Define a Haskell datatype Tree1 for a tree that contains a
 -- character and an integer in each node, along with exactly three subtrees.
