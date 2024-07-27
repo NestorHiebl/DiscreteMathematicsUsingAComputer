@@ -174,3 +174,15 @@ zipWithTree f t1 t2 =
         then Just (zipWith f (inorderEfficient t1) (inorderEfficient t2))
         else Nothing
 
+-- Exercise 12: Write appendTree, a function that takes a binary tree and a
+-- list, and appends the contents of the tree (traversed from left to right)
+-- to the front of the list. For example,
+--  appendTree (BinNode 2 (BinNode 1 BinLeaf BinLeaf)
+--                        (BinNode 3 BinLeaf BinLeaf)
+--             [4,5]
+-- evaluates to [1,2,3,4,5]. Try to find an efficient solution that minimises
+-- recopying.
+
+appendTree :: BinTree a -> [a] -> [a]
+appendTree t xs = (inorderEfficient t) ++ xs
+
