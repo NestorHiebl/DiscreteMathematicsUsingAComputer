@@ -129,3 +129,48 @@ bstInsert (k,v) (BinNode (x,y) l r) =
             then BinNode (x,y) (bstInsert (k,v) l) r
             else BinNode (x,y) l (bstInsert (k,v) r)
 
+-- Exercise 8: Define a function mapTree that takes a function and applies it
+-- to every node in the tree, returning a new tree of results.
+
+mapTree :: (a->b) -> BinTree a -> BinTree b
+mapTree _ BinLeaf = BinLeaf
+mapTree f (BinNode x l r) = BinNode (f x) (mapTree f l) (mapTree f r)
+
+-- Exercise 9: Write concatTree, a function that takes a tree of lists and
+-- concatenates the lists in order from left to right.
+
+concatTree :: BinTree [a] -> [a]
+concatTree tree = concat (inorderEfficient tree)
+
+-- Exercise 10: Write zipTree, a function that takes two trees and pairs each
+-- of the corresponding elements in a list. Your function should return
+-- Nothing if the two trees do not have the same shape. For example,
+--  zipTree (Node 2 (Node 1 Tip Tip) (Node 3 Tip Tip))
+--          (Node 5 (Node 4 Tip Tip) (Node 6 TIp Tip))
+--  ==> Just [(1,4)(2,5)(3,6)]
+
+sameShape :: BinTree a -> BinTree b -> Bool
+sameShape BinLeaf BinLeaf = True
+sameShape BinLeaf (BinNode _ _ _) = False
+sameShape (BinNode _ _ _) BinLeaf = False
+sameShape (BinNode _ l1 r1) (BinNode _ l2 r2) =
+    (sameShape l1 l2) && (sameShape r1 r2)
+
+zipTree :: BinTree a -> BinTree b -> Maybe [(a,b)]
+zipTree t1 t2 =
+    if sameShape t1 t2
+        then Just (zip (inorderEfficient t1) (inorderEfficient t2))
+        else Nothing
+
+-- Exercise 11: Write zipWithTree, a function that is like zipWith except that
+-- it takes trees instead of lists. The first argument is a function of type
+-- a -> b -> c, the second argument is a tree with elements of type a, and the
+-- third argument is a tree with elements of type b. The function returns a
+-- list with type [c].
+
+zipWithTree :: (a -> b -> c) -> BinTree a -> BinTree b -> Maybe [c]
+zipWithTree f t1 t2 =
+    if sameShape t1 t2
+        then Just (zipWith f (inorderEfficient t1) (inorderEfficient t2))
+        else Nothing
+

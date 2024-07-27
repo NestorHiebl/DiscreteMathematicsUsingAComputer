@@ -10,7 +10,7 @@ available for download
 The software in question comes in the form of a literate Haskell module named
 `stdm.lhs`, and was originally intended for use with Hugs 98 - a Haskell
 compiler and REPL which has since fallen out of use and is no longer in
-development. ´ghci´ is listed as a viable alternative, but the code in the
+development. `ghci` is listed as a viable alternative, but the code in the
 module does not compile on the current-day `ghc` implementation, even when
 Haskell 98 is explicitly named as the language standard version.
 
