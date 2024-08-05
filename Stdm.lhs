@@ -1560,6 +1560,10 @@ note that subset does not reject non-sets
 >           min_elt = head (weakestSet digraph)
 >    in topsortLoop digraph
 
+> equivalenceRelation :: (Eq a, Show a) => Digraph a -> Digraph a
+> equivalenceRelation =
+>    reflexiveClosure . symmetricClosure . transitiveClosure
+
 > isEquivalenceRelation :: (Eq a, Show a) => Digraph a -> Bool
 > isEquivalenceRelation digraph
 >    = if not (isDigraph digraph)

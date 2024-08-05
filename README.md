@@ -23,6 +23,11 @@ you're interested in working through it and are having trouble with the bundled
 software, hopefully you found this, thus saving yourself from having to debug
 decades old code.
 
+One more note - the function 
+`equivalenceRelation :: (Eq a, Show a) => Digraph a -> Digraph a` named in
+section 10.9 of the book is missing from the bundled software module. This repo
+provides an implementation.
+
 The exercises found here are mostly only those whose solution has the form of
 Haskell code. Others, such as proofs by induction or natural deduction may be
 added one day.
