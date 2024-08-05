@@ -84,10 +84,10 @@ e23b = (Or Q FALSE)
 e23c = (Imp Q (Imp P (And P Q)))
 e23d = (And P (Not Q))
 e23e = (Imp (Not P) Q)
-e23f = 
+e23f =
     (Or
-        (And P (Not Q)) 
-        (Imp 
+        (And P (Not Q))
+        (Imp
             (And (Not P) Q)
             (Or P Q)
         )
@@ -98,7 +98,7 @@ t34 :: Theorem
 t34 = (Theorem [(And A (Not A))] FALSE)
 
 p34 :: Proof
-p34 = ImpE 
+p34 = ImpE
     (
         (AndEL (Assume (And A (Not A))) A),
         (AndER (Assume (And A (Not A))) (Not A))
@@ -113,13 +113,30 @@ t35 :: Theorem
 t35 = Theorem [A] (Imp (Imp A FALSE) FALSE)
 
 p35 :: Proof
-p35 = ImpI 
-    (ImpE 
-        ((Assume A), (Assume (Imp A FALSE))) 
+p35 = ImpI
+    (ImpE
+        ((Assume A), (Assume (Imp A FALSE)))
         FALSE
     )
     (Imp (Imp A FALSE) FALSE)
 
 p35_valid :: IO ()
 p35_valid = check_proof t35 p35
+
+-- Exercise 36: Prove the following:
+t36 :: Theorem
+t36 = Theorem [A, A `Imp` B, B `Imp` C, C `Imp` D] D
+
+p36 :: Proof
+p36 =
+    ((
+        (Assume A, Assume (A `Imp` B))
+    {---------------------------------} `ImpE`
+        B, Assume (B `Imp` C))
+    {---------------------------------} `ImpE`
+        C, Assume (C `Imp` D))
+    {---------------------------------} `ImpE`
+        D
+
+p36_valid = check_proof t36 p36
 
