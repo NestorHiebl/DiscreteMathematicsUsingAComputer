@@ -140,3 +140,55 @@ p36 =
 
 p36_valid = check_proof t36 p36
 
+-- Exercise 45: Suppose you were given the following code:
+logicExpr1 :: Bool -> Bool -> Bool
+logicExpr1 a b = a /\ b \/ a <=> a
+
+logicExpr2 :: Bool -> Bool -> Bool
+logicExpr2 a b = (a \/ b) /\ b <=> a /\ b
+-- Each of these functions specifies a boolean expression. What are the truth
+-- values of these expressions? How would you write a list comprehension that
+-- can calculate the values for you to check your work?
+
+logicExpr1Table = [logicExpr1 x y | x <- [True, False], y <- [True, False]]
+
+logicExpr2Table = [logicExpr2 x y | x <- [True, False], y <- [True, False]]
+
+-- Exercise 46: Work out the values of these expressions, then check with a
+-- list comprehension:
+logicExpr3 :: Bool -> Bool -> Bool -> Bool
+logicExpr3 a b c = (a /\ b) \/ (a /\ c) ==> a \/ b
+
+logicExpr4 :: Bool -> Bool -> Bool -> Bool
+logicExpr4 a b c = (a /\ (b \/c)) \/ (a \/ c) ==> a \/ c
+
+logicExpr3Table =
+    [logicExpr3 x y z |
+        x <- [True, False],
+        y <- [True, False],
+        z <- [True, False]]
+
+logicExpr4Table =
+    [logicExpr4 x y z |
+        x <- [True, False],
+        y <- [True, False],
+        z <- [True, False]]
+
+-- Exercise 47: Using the Logic data type defined below, define a function
+-- distribute that rewrites an expression using the distributive law, and a
+-- function deMorgan that does the same for DeMorgan's law.
+data Logic = Al | Bl | Cl
+           | Andl Logic Logic
+           | Orl Logic Logic
+           | Notl Logic
+           | Implyl Logic Logic
+           | Equivl Logic Logic
+           deriving (Eq, Show)
+
+distribute :: Logic -> Logic
+distribute (Andl a (Orl b c)) = (Orl (Andl a b) (Andl a c))
+distribute (Orl a (Andl b c)) = (Andl (Orl a b) (Orl a c))
+
+deMorgan :: Logic -> Logic
+deMorgan (Notl (Andl a b)) = (Orl (Notl a) (Notl b))
+deMorgan (Notl (Orl a b)) = (Andl (Notl a) (Notl b))
