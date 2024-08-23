@@ -29,3 +29,26 @@ e2q = [] ~~~ [1,2]
 e3a = powerset [3,2,4]
 e3b = powerset [2]
 
+-- Exercise 4: The cross product of two sets A and B is defined as the
+-- function
+--  crossproduct :: (Eq a, Show a, Eq b, Show b) => Set a -> Set b -> Set (a,b)
+-- Evaluate these expressions:
+
+e4a = crossproduct [1,2,3] ['a','b']
+e4b = crossproduct [1] ['a','b']
+
+-- Exercise 7: Write and evaluate a list comprehension that expresses the set
+-- { x | x ∈ {1,2,3,4,5} ∧ x < 0 }
+
+e7 = normalizeSet [x | x <- [1..5], x < 0]
+
+-- Exercise 8: Write and evaluate a list comprehension that expresses the set
+-- { x + y | x ∈ {1,2,3} ∧ y ∈ {4,5} }
+
+e8 = normalizeSet [x+y | x <- [1..3], y <- [4,5]]
+
+-- Exercise 9: Write and evaluate a list comprehension that expresses the set
+-- { x + y | x ∈ {1,2,3,4,5,6,7,8,9,10} ∧ x is even }
+
+e9 = normalizeSet [x | x <- [1..10], x `mod` 2 == 0]
+
