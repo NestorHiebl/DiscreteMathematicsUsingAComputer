@@ -1,4 +1,5 @@
 import Stdm
+import Data.List
 
 -- Exercise 2: Work out the values of the following set expressions, and then
 -- check your answer using the Haskell expression that follows.
@@ -51,4 +52,52 @@ e8 = normalizeSet [x+y | x <- [1..3], y <- [4,5]]
 -- { x + y | x ∈ {1,2,3,4,5,6,7,8,9,10} ∧ x is even }
 
 e9 = normalizeSet [x | x <- [1..10], x `mod` 2 == 0]
+
+-- Exercise 14: The function "smaller" takes a value and a list of values and
+-- returns True if the value is smaller than the fist element in the list.
+-- Using this function, write a function that takes a set and returns its
+-- powerset. Use foldr.
+
+smaller :: Ord a => a -> [a] -> Bool
+smaller _ [] = True
+smaller a (x:_) = a < x
+
+-- Input set must be sorted for inner function to work!
+powerset' :: Ord a => Set a -> Set (Set a)
+powerset' set = normalizeSet $ foldr inner [[]] $ sort set
+    where inner x acc = [x:xs | xs <- acc, not (elem x xs) && smaller x xs] ++ acc
+
+-- Exercise 16: Using a list comprehension, write a function that takes two
+-- sets and returns true if the first is a subset of the other.
+
+subset' :: Eq a => Set a -> Set a -> Bool
+subset' a b = foldr (&&) True [elem x b' | x <- a']
+    where
+        a' = normalizeSet a
+        b' = normalizeSet b
+
+-- Exercise 17: What is wrong with this definition of diff, a function that
+-- takes two sets and returns their difference?
+--  diff :: Eq a => [a] -> [a] -> [a]
+--  diff set1 set2 = [e | e <- set2, not (elem e set1)]
+
+-- The arguments are in the wrong positions inside the comprehension. The
+-- correct definition would be:
+diff :: Eq a => [a] -> [a] -> [a]
+diff set1 set2 = [e | e <- set1, not (elem e set2)]
+
+-- Exercise 18: What is wrong with this definition of intersection, a function
+-- that takes two sets and returns their intersection?
+--  intersection :: Eq a => [a] -> [a] -> [a]
+--  intersection set1 set2 = [e | e <- set1, e <- set2]
+
+-- The syntax above repeats all elements of set2 |set1| times.
+intersection :: Eq a => [a] -> [a] -> [a]
+intersection set1 set2 = [e | e <- set1, elem e set2]
+
+-- Exercise 19: Write a function using a list comprehension that takes two
+-- sets and returns their union.
+
+union' :: Eq a => Set a -> Set a -> Set a
+union' a b = normalizeSet [e | e <- a ++ b]
 
