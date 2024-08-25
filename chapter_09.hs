@@ -6,6 +6,44 @@ increment x = x + 1
 s :: [Integer]
 s = [0, increment (s !! 0), increment (s !! 1)]
 
+-- Exercise 1: Is the following a chain? You can test your conclusion by
+-- evaluating s in each case.
+imp1 :: Integer -> Integer
+imp1 1 = 2
+imp1 x = error "imp1: premise does not apply"
+
+imp2 :: Integer -> Integer
+imp2 2 = 3
+imp2 x = error "imp2: premise does not apply"
+
+imp3 :: Integer -> Integer
+imp3 3 = 4
+imp3 x = error "imp3: premise does not apply"
+
+s1 :: [Integer]
+s1 = [1, imp1 (s1 !! 0), imp2 (s1 !! 1), imp3 (s1 !! 2)]
+
+-- Exercise 6: Using the following definitons, determine whether 4 is in set
+-- s6, given 1 ∈ s6 and the induction rule x ∈ s6 -> x + 2 ∈ s6.
+
+fun6 :: Integer -> Integer
+fun6 x = x + 2
+
+s6 :: [Integer]
+s6 = 1 : map fun6 s6
+
+-- Exercise 9: Here is a Haskell equation that defines the set s9 inductively.
+-- is 82 an element of s?
+
+s9 :: [Integer]
+s9 = 0 : map (+2) s9
+
+-- Exercise 10: What set is defined by the following?
+
+s10 :: [Integer]
+s10 = 1 : map (*3) s10
+
+-- Maps each element of a list to a new list, concatenating the results.
 mappend' :: (a -> [b]) -> [a] -> [b]
 mappend' _ [] = []
 mappend' f (x:xs) = f x ++ mappend' f xs
@@ -76,4 +114,22 @@ nextIntegers5 x = if x >= 0
     else []
 
 integers5 = builds 0 nextIntegers5
+
+-- Exercise 17: Does ints, using the following definition, enumerate the
+-- integers? If it does, then you should be able to pick any integer and see
+-- it eventually in the output produced by ints. Will you ever see the
+-- value -1?
+
+nats :: [Integer]
+nats = build 0 (1+)
+
+negs :: [Integer]
+negs = build (-1) (1-)
+
+ints :: [Integer]
+ints = nats ++ negs
+
+-- No - appending a list to an endless list has no effect, because the final
+-- element of the first list will never be generated. Negative one is not
+-- reachable in ints.
 
