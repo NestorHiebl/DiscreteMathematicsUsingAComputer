@@ -133,3 +133,44 @@ ints = nats ++ negs
 -- element of the first list will never be generated. Negative one is not
 -- reachable in ints.
 
+-- Exercise 18: Does twos enumerate the set of even natural numbers?
+twos :: [Integer]
+twos = build 0 (*2)
+
+-- No.
+
+-- Exercise 19: What is wrong with the following definition of the stream of
+-- natural numbers?
+natsWrong = map (+1) nats ++ [0]
+
+-- Because 0 is appended to the end of the list, natsWrong has no initial
+-- element.
+
+-- Exercise 20: What is the problem with the following definition of the
+-- naturals?
+naturals :: [Integer] -> [Integer]
+naturals (i:acc) = naturals (i + 1:i:acc)
+
+nats20 :: [Integer]
+nats20 = naturals [0]
+
+-- The recursion in naturals never terminates, making it impossible to
+-- generate even a single element of nats20 after 0.
+
+-- Exercise 21: Can we write a function that will take a stream of the naturals
+-- (appearing in any order) and give the index of a particular number?
+
+-- Unfortunately no. Depending on how the stream is generated, there may be an
+-- infinite number of elements before the one passed to the function, making
+-- it unreachable in finite time.
+
+-- Exercise 28: Using data recursion, define the set of strings containing the
+-- letter 'z'.
+
+-- Doesn't really generate *all* strings containing 'z', but you get the idea.
+newZStrings :: String -> [String]
+newZStrings s = [c:s | c <- ['a'..'z']]
+
+stringsWithZ :: [String]
+stringsWithZ = "z" : (mappend' newZStrings stringsWithZ)
+
