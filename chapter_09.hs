@@ -174,3 +174,25 @@ newZStrings s = [c:s | c <- ['a'..'z']]
 stringsWithZ :: [String]
 stringsWithZ = "z" : (mappend' newZStrings stringsWithZ)
 
+-- Exercise 29: Using induction, define the set of strings of spaces of length
+-- less than or equal to some positive integer n.
+
+spacesLessEqualN :: Integer -> [String]
+spacesLessEqualN 1 = [" "]
+spacesLessEqualN n = [repeatChar ' ' n] ++ spacesLessEqualN (n-1)
+    where
+        repeatChar c 0 = [c]
+        repeatChar c i = c:(repeatChar c (i-1))
+
+-- Exercise 34: Using data recursion, define the set ni of negative integers.
+
+ni :: [Integer]
+ni = (-1):map (+(-1)) ni
+
+-- Exercise 35: If you print the elements of:
+natCaresian = [(a,b) | a <- [0..], b <- [0..]]
+-- will you ever see the element (1,2)?
+
+-- No, since both a and b are generated from infinite lists, a will never have
+-- any value except for 0.
+
