@@ -48,3 +48,57 @@ e16d = relationalPower ([1,2,3,4], [(1,2),(2,3),(3,4)]) 4
 e24a = reflexiveClosure ([1,2,3],[(1,2),(2,3)])
 e24b = reflexiveClosure ([1,2],[(1,2),(2,1)])
 
+-- Exercise 26: Work out the following symmetric closures by hand, and then
+-- calculate them using the computer:
+e26a = symmetricClosure ([1,2],[(1,1),(1,2)])
+e26b = symmetricClosure ([1,2,3],[(1,2),(2,3)])
+
+-- Exercise 29: Work out the following symmetric closures by hand, and then
+-- calculate them using the computer:
+e29a = transitiveClosure ([1,2,3],[(1,2),(2,3)])
+e29b = transitiveClosure ([1,2,3],[(1,2),(2,1)])
+
+-- Exercise 32: Work out by hand whether the following digraphs are partial
+-- orders, and then check your results using the computer:
+e32a = isPartialOrder ([1,2,3],[(1,2),(2,3)])
+e32b = isPartialOrder ([1,2,3],[(1,2),(2,3),(1,3),(1,1),(2,2),(3,3)])
+
+-- Exercise 33: Calculate the following by hand, and then evaluate using the
+-- computer:
+e33a = isWeakest [(1,2),(2,3),(1,3),(1,1),(2,2),(3,3)] 2
+e33b = isWeakest [(1,2),(1,3),(1,1),(2,2),(3,3)] 3
+
+e33c = isGreatest [(1,2),(2,3),(1,3),(1,1),(2,2),(3,3)] 3
+e33d = isGreatest [(1,2),(1,3),(1,1),(2,2),(3,3)] 1
+
+-- Exercise 38: Evaluate the following expressions by hand and using the
+-- computer:
+e38a = isLinearOrder ([1,2,3],[(1,2),(2,3),(1,3),(1,1),(2,2),(3,3)])
+e38b = isLinearOrder ([1,2,3],[(1,2),(1,3),(1,1),(2,2),(3,3)])
+
+-- Exercise 41: Check to see that the following partial orders are not, in
+-- fact, topological orders. Use the computer to generate a total order, using
+-- a topological sort.
+e41a = topsort (
+    [1,2,3,4],
+    [(1,2),(1,3),(2,3),(1,4),(2,4),(1,1),(2,2),(3,3),(4,4)])
+
+e41b = topsort ( [1,2,3],[(1,2),(1,3),(1,4),(1,1),(2,2),(3,3)])
+
+-- Exercise 42: Evaluate the following expressions using the computer:
+e42a = equivalenceRelation ([1,2],[(1,1),(2,2),(1,2),(2,1)])
+e42b = equivalenceRelation ([1,2,3],[(1,1),(2,2)])
+
+e42c = isEquivalenceRelation ([1,2],[(1,1),(2,2),(1,2),(2,1)])
+e42d = isEquivalenceRelation ([1],[])
+
+-- Exercise 43: Does the topological sort require that the graph's relation is
+-- a partial order?
+
+-- Yes - the topological sort can be defined as the construction of a total
+-- order from a partial order.
+
+-- Exercise 44: Can the graph given to a topological sort have cycles?
+
+-- No. The graph must be a partial order, which has no cycles by definition.
+
