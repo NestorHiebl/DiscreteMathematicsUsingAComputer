@@ -102,3 +102,16 @@ e42d = isEquivalenceRelation ([1],[])
 
 -- No. The graph must be a partial order, which has no cycles by definition.
 
+-- Exercise 48: Write a function that takes a relation and returns True if
+-- that relation has a power that is the given relation.
+
+powerCheck :: (Eq a, Show a) => Digraph a -> Bool
+powerCheck d = comparePower d 2
+    where
+        comparePower (set, relation) pow
+            | length set > (pow + 1) = False
+            | otherwise =
+                if (relationalPower (set, relation) pow) == relation
+                    then True
+                    else comparePower (set, relation) (pow + 1)
+
