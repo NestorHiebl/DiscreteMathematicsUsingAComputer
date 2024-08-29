@@ -115,3 +115,20 @@ powerCheck d = comparePower d 2
                     then True
                     else comparePower (set, relation) (pow + 1)
 
+-- Exercise 51: Write a function that takes a relation and returns True if all
+-- of its powers have fewer arcs than it does.
+
+powerArcCheck :: (Eq a, Show a) => Digraph a -> Bool
+powerArcCheck (set, relation) = foldr (&&) True
+    [(arcsInPower n) < arcsInRelation | n <- [2..(length relation)]]
+        where
+            arcsInPower n = length (relationalPower (set,relation) n)
+            arcsInRelation = length relation
+
+-- Exercise 52: Write a function that takes a relation and returns True if the
+-- relation is smaller thatn its symmetric closure.
+
+smallerThanClosure :: (Eq a, Show a) => Digraph a -> Bool
+smallerThanClosure (set, relation) = (length relation) < closureLen
+    where closureLen = length $ snd $ symmetricClosure (set, relation)
+
