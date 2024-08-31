@@ -30,3 +30,10 @@ mystery2 x = if x == 20 then 2 + mystery2 x else 3
 
 -- 3 for all values except 20, which is undefined.
 
+-- Exercise 5: Work out the values of the following expressions, and then
+-- check your result by evaluating them with the computer:
+increment :: Int -> Int
+increment n = n + 1
+e5a = map (increment.increment.increment) [1,2,3]
+e5b = map ((+2).(*2)) [1,2,3]
+
