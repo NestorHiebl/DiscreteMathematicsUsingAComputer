@@ -37,3 +37,18 @@ increment n = n + 1
 e5a = map (increment.increment.increment) [1,2,3]
 e5b = map ((+2).(*2)) [1,2,3]
 
+-- Exercise 12: Determine whether the functions in these examples are
+-- injective, and check your conclusions using the computer:
+e12a = isInjective [1,2,3] [2,4] [(1,Value 2),(2,Value 4),(3,Value 2)]
+e12b = isInjective [1,2,3] [2,3,4] [(1,Value 2),(2,Value 4),(3,Undefined)]
+
+-- Exercise 15: Determine whether the following functions are bijective, and
+-- check your conclusions using the computer:
+e15a = isBijective [1,2] [3,4] [(1,Value 3),(2,Value 4)]
+e15b = isBijective [1,2] [3,4] [(1,Value 3),(2,Value 3)]
+
+-- Exercise 17: Determine whether the following functions are permutations, and
+-- check using the computer:
+e17a = isPermutation [1,2,3] [1,2,3] [(1,Value 2),(2,Value 3),(3,Undefined)]
+e17b = isPermutation [1,2,3] [1,2,3] [(1,Value 2),(2,Value 3),(3,Value 1)]
+
